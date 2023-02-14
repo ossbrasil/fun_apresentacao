@@ -18,11 +18,9 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::orderBy('id', 'desc');
-        // $contactUnread = $contacts->where('is_read', 0)->get();
 
         return view('dashboard/contact/index', array(
             'contacts' => $contacts,
-            // 'contactUnread' => $contactUnread
         ));
     }
 
@@ -33,7 +31,11 @@ class ContactController extends Controller
 
     public function create()
     {
-        return view('dashboard/contact/create');
+        $contacts = Contact::orderBy('id', 'desc');
+
+        return view('dashboard/contact/create', array(
+            'contacts' => $contacts
+        ));
     }
 
     public function store(Request $request)
@@ -61,7 +63,15 @@ class ContactController extends Controller
 
     public function edit($id)
     {
-        return view('dashboard/contact/edit');
+        $contacts = Contact::orderBy('id', 'desc');
+        $contact = Contact::where('id',$id)->get()->first();
+        $contact['is_read'] = 1;
+        $contact->save();
+
+        return view('dashboard/contact/edit', array(
+            'contacts' => $contacts,
+            'contact' => $contact
+        ));
     }
 
     public function update(Request $request, $id)

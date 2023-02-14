@@ -1,7 +1,11 @@
 <?php
 
+// dashboard controller
 use App\Http\Controllers\Dashboard\HomeController as DashboardHomeController;
 use App\Http\Controllers\Dashboard\ContactController as DashboardContactController;
+
+// website controller
+use App\Http\Controllers\Website\HomeController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +35,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/atualizar/{id}', [DashboardContactController::class, 'update'])->name('dashboard-contact-update');
         });
     });
+});
+
+
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 });
 
 // Route::get('dashboard-home', [DashboardHomeController::class, 'index'])->name('dashboard-home');
