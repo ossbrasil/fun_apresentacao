@@ -244,8 +244,6 @@
     <!-- ChartJS -->
     <script src="{{ URL::to('assets/dashboard/plugins/chart.js/Chart.min.js') }}"></script>
 
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ URL::to('assets/dashboard/dist/js/demo.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ URL::to('assets/dashboard/dist/js/pages/dashboard2.js') }}"></script>
 
