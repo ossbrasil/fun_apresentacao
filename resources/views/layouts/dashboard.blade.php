@@ -151,19 +151,6 @@
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -186,20 +173,43 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('dashboard-contact') }}" class="nav-link @yield('nav-contact-li')">
+                                    <a href="{{ route('dashboard-contact') }}" class="nav-link @yield('nav-contact-li-show')">
                                         <i class="far fa-eye mr-2 ml-4"></i>
                                         <p>Ver todos</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('dashboard-contact-create') }}"
-                                        class="nav-link @yield('nav-contact-li')">
+                                        class="nav-link @yield('nav-contact-li-create')">
                                         <i class="fas fa-plus mr-2 ml-4"></i>
                                         <p>Cadastrar</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
+                        <!-- users -->
+                        <li class="nav-header">Configurações</li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link @yield('perfil-li')">
+                                <i class="nav-icon fas fa-user-alt"></i>
+                                <p>Perfil</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link @yield('info-li')">
+                                <i class="nav-icon fas fa-info-circle"></i>
+                                <p>Informações</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link @yield('info-li')">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Website Info</p>
+                            </a>
+                        </li>
+                        <!-- end users -->
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

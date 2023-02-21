@@ -29,10 +29,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'contato'], function () {
             Route::get('/', [DashboardContactController::class, 'index'])->name('dashboard-contact');
             Route::get('/visualizar/{id}', [DashboardContactController::class, 'show'])->name('dashboard-contact-show');
+            Route::get('/visualizar/tipo/{label}', [DashboardContactController::class, 'label'])->name('dashboard-contact-label');
+            Route::get('/visualizar/lidos', [DashboardContactController::class, 'read'])->name('dashboard-contact-read');
+            Route::get('/visualizar/nao-lidos', [DashboardContactController::class, 'notRead'])->name('dashboard-contact-not-read');
             Route::get('/cadastro', [DashboardContactController::class, 'create'])->name('dashboard-contact-create');
             Route::post('/cadastrar', [DashboardContactController::class, 'store'])->name('dashboard-contact-store');
             Route::get('/editar/{id}', [DashboardContactController::class, 'edit'])->name('dashboard-contact-edit');
             Route::post('/atualizar/{id}', [DashboardContactController::class, 'update'])->name('dashboard-contact-update');
+            Route::post('/apagar/{id}', [DashboardContactController::class, 'destroy'])->name('dashboard-contact-destroy');
         });
     });
 });

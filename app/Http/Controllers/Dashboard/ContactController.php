@@ -10,8 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
+    protected $totalContacts;
+    protected $newsMessages;
+    protected $lastThreeMessages;
+
     public function __construct()
     {
+        $this->totalContacts = Contact::count();
+        $this->newsMessages = Contact::where('is_read', 0)->count();
+        $this->lastThreeMessages = Contact::where('is_read', 0)->orderBy('id', 'desc')->take('3')->get();
         $this->middleware('auth');
     }
 
@@ -21,6 +28,9 @@ class ContactController extends Controller
 
         return view('dashboard/contact/index', array(
             'contacts' => $contacts,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
         ));
     }
 
@@ -34,7 +44,10 @@ class ContactController extends Controller
         $contacts = Contact::orderBy('id', 'desc');
 
         return view('dashboard/contact/create', array(
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
         ));
     }
 
@@ -70,13 +83,45 @@ class ContactController extends Controller
 
         return view('dashboard/contact/edit', array(
             'contacts' => $contacts,
-            'contact' => $contact
+            'contact' => $contact,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
         ));
     }
 
     public function update(Request $request, $id)
     {
 
+    }
+
+    public function read()
+    {
+        $contacts = Contact::orderBy('id', 'desc')->where('is_read', 1);
+
+        return view('dashboard.contact.index', array(
+            'contacts' => $contacts,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
+        ));
+    }
+
+    public function notRead()
+    {
+
+    }
+
+    public function label($label)
+    {
+        $contacts = Contact::orderBy('id', 'desc')->where('label', $label);
+
+        return view('dashboard/contact/index', array(
+            'contacts' => $contacts,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
+        ));
     }
 
     public function delete($id)
