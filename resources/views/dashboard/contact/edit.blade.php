@@ -46,16 +46,16 @@
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-not-read') }}" class="nav-link">
                                         <i class="fas fa-star text-warning mr-2"></i>
                                         Não lidos
                                         <span class="badge bg-primary float-right">
-                                            {{ count($contacts->where('is_read', 0)->get()) }}
+                                            {{ $notRead }}
                                         </span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-read') }}" class="nav-link">
                                         <i class="fas fa-star text-secondary mr-2"></i>
                                         Lidos
                                     </a>
@@ -78,37 +78,43 @@
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'important']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-warning"></i>
                                         Importante
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'offers']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-light"></i>
                                         Propostas
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'compliment']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-success"></i>
                                         Elogios
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'complaint']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-danger"></i>
                                         Reclamações
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'suggestion']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-primary"></i>
                                         Sugestões
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-label', ['label' => 'others']) }}"
+                                        class="nav-link">
                                         <i class="far fa-circle text-secondary"></i>
                                         Outros
                                     </a>

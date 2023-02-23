@@ -13,31 +13,34 @@ class ContactController extends Controller
     protected $totalContacts;
     protected $newsMessages;
     protected $lastThreeMessages;
+    protected $notRead;
 
     public function __construct()
     {
         $this->totalContacts = Contact::count();
         $this->newsMessages = Contact::where('is_read', 0)->count();
         $this->lastThreeMessages = Contact::where('is_read', 0)->orderBy('id', 'desc')->take('3')->get();
+        $this->notRead = Contact::where('is_read', 0)->count();
         $this->middleware('auth');
     }
 
     public function index()
     {
-        $contacts = Contact::orderBy('id', 'desc');
+        $contacts = Contact::orderBy('id', 'desc')->paginate(10);
 
         return view('dashboard/contact/index', array(
             'contacts' => $contacts,
+            'notRead' => $this->notRead,
             'totalContacts' => $this->totalContacts,
             'newsMessages' => $this->newsMessages,
             'lastThreeMessages' => $this->lastThreeMessages
         ));
     }
 
-    public function show($id)
-    {
-        return view('dashboard/contact/show');
-    }
+    // public function show($id)
+    // {
+    //     return view('dashboard/contact/show');
+    // }
 
     public function create()
     {
@@ -45,6 +48,7 @@ class ContactController extends Controller
 
         return view('dashboard/contact/create', array(
             'contacts' => $contacts,
+            'notRead' => $this->notRead,
             'totalContacts' => $this->totalContacts,
             'newsMessages' => $this->newsMessages,
             'lastThreeMessages' => $this->lastThreeMessages
@@ -76,14 +80,13 @@ class ContactController extends Controller
 
     public function edit($id)
     {
-        $contacts = Contact::orderBy('id', 'desc');
         $contact = Contact::where('id',$id)->get()->first();
         $contact['is_read'] = 1;
         $contact->save();
 
-        return view('dashboard/contact/edit', array(
-            'contacts' => $contacts,
+        return view('dashboard.contact.edit', array(
             'contact' => $contact,
+            'notRead' => $this->notRead,
             'totalContacts' => $this->totalContacts,
             'newsMessages' => $this->newsMessages,
             'lastThreeMessages' => $this->lastThreeMessages
@@ -97,10 +100,11 @@ class ContactController extends Controller
 
     public function read()
     {
-        $contacts = Contact::orderBy('id', 'desc')->where('is_read', 1);
+        $contacts = Contact::orderBy('id', 'desc')->where('is_read', 1)->get()->all();
 
         return view('dashboard.contact.index', array(
             'contacts' => $contacts,
+            'notRead' => $this->notRead,
             'totalContacts' => $this->totalContacts,
             'newsMessages' => $this->newsMessages,
             'lastThreeMessages' => $this->lastThreeMessages
@@ -109,15 +113,24 @@ class ContactController extends Controller
 
     public function notRead()
     {
+        $contacts = Contact::orderBy('id', 'desc')->where('is_read', 0)->get()->all();
 
+        return view('dashboard.contact.index', array(
+            'contacts' => $contacts,
+            'notRead' => $this->notRead,
+            'totalContacts' => $this->totalContacts,
+            'newsMessages' => $this->newsMessages,
+            'lastThreeMessages' => $this->lastThreeMessages
+        ));
     }
 
     public function label($label)
     {
-        $contacts = Contact::orderBy('id', 'desc')->where('label', $label);
+        $contacts = Contact::orderBy('id', 'desc')->where('label', $label)->get()->all();
 
         return view('dashboard/contact/index', array(
             'contacts' => $contacts,
+            'notRead' => $this->notRead,
             'totalContacts' => $this->totalContacts,
             'newsMessages' => $this->newsMessages,
             'lastThreeMessages' => $this->lastThreeMessages
@@ -126,6 +139,13 @@ class ContactController extends Controller
 
     public function delete($id)
     {
+        $contact = Contact::find($id);
+        if ($contact) {
+            $contact->delete();
 
+            return redirect()->route('dashboard-contact')->with('warning', 'Contato deletado com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'Algo deu errado!');
+        }
     }
 }

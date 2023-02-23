@@ -78,16 +78,16 @@
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-not-read') }}" class="nav-link">
                                         <i class="fas fa-star text-warning mr-2"></i>
                                         Não lidos
                                         <span class="badge bg-primary float-right">
-                                            {{ count($contacts->where('is_read', 0)->get()) }}
+                                            {{ $notRead }}
                                         </span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('dashboard-contact-read') }}" class="nav-link">
                                         <i class="fas fa-star text-secondary mr-2"></i>
                                         Lidos
                                     </a>
@@ -208,55 +208,60 @@
                             <div class="table-responsive mailbox-messages">
                                 <table class="table table-hover table-striped">
                                     <tbody>
-                                        @foreach ($contacts->orderBy('id', 'desc')->get()->all() as $contact)
-                                            <tr>
-                                                <td>
-                                                    <div class="icheck-primary">
-                                                        <input type="checkbox" class="checkbox-trash"
-                                                            value="{{ $contact['id'] }}" id="check-{{ $contact['id'] }}">
-                                                        <label for="check1"></label>
-                                                    </div>
-                                                </td>
-                                                @if ($contact['is_read'] == 0)
-                                                    <td class="mailbox-star">
-                                                        <a
-                                                            href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">
-                                                            <i class="fas fa-star text-warning"></i>
-                                                        </a>
+                                        @if (count($contacts) > 0)
+                                            @foreach ($contacts as $contact)
+                                                <tr>
+                                                    <td>
+                                                        <div class="icheck-primary">
+                                                            <input type="checkbox" class="checkbox-trash"
+                                                                value="{{ $contact['id'] }}"
+                                                                id="check-{{ $contact['id'] }}">
+                                                            <label for="check1"></label>
+                                                        </div>
                                                     </td>
-                                                @else
-                                                    <td class="mailbox-star">
-                                                        <a
-                                                            href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">
-                                                            <i class="fas fa-star text-secondary"></i>
-                                                        </a>
-                                                    </td>
-                                                @endif
-                                                <td class="mailbox-name">
-                                                    <a
-                                                        href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">{{ $contact['name'] }}</a>
-                                                </td>
-                                                <td class="mailbox-attachment">
-                                                    @if ($contact['label'] == 'important')
-                                                        <i class="far fa-circle text-warning"></i>
-                                                    @elseif ($contact['label'] == 'offers')
-                                                        <i class="far fa-circle text-light"></i>
-                                                    @elseif ($contact['label'] == 'complaint')
-                                                        <i class="far fa-circle text-danger"></i>
-                                                    @elseif ($contact['label'] == 'suggestion')
-                                                        <i class="far fa-circle text-primary"></i>
-                                                    @elseif ($contact['label'] == 'compliment')
-                                                        <i class="far fa-circle text-success"></i>
+                                                    @if ($contact['is_read'] == 0)
+                                                        <td class="mailbox-star">
+                                                            <a
+                                                                href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">
+                                                                <i class="fas fa-star text-warning"></i>
+                                                            </a>
+                                                        </td>
                                                     @else
-                                                        <i class="far fa-circle text-secondary"></i>
+                                                        <td class="mailbox-star">
+                                                            <a
+                                                                href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">
+                                                                <i class="fas fa-star text-secondary"></i>
+                                                            </a>
+                                                        </td>
                                                     @endif
-                                                </td>
-                                                <td class="mailbox-subject">
-                                                    <b>{{ $contact['subject'] }}</b>
-                                                </td>
-                                                <td class="mailbox-date">{{ $contact['created_at'] }}</td>
-                                            </tr>
-                                        @endforeach
+                                                    <td class="mailbox-name">
+                                                        <a
+                                                            href="{{ route('dashboard-contact-edit', ['id' => $contact['id']]) }}">{{ $contact['name'] }}</a>
+                                                    </td>
+                                                    <td class="mailbox-attachment">
+                                                        @if ($contact['label'] == 'important')
+                                                            <i class="far fa-circle text-warning"></i>
+                                                        @elseif ($contact['label'] == 'offers')
+                                                            <i class="far fa-circle text-light"></i>
+                                                        @elseif ($contact['label'] == 'complaint')
+                                                            <i class="far fa-circle text-danger"></i>
+                                                        @elseif ($contact['label'] == 'suggestion')
+                                                            <i class="far fa-circle text-primary"></i>
+                                                        @elseif ($contact['label'] == 'compliment')
+                                                            <i class="far fa-circle text-success"></i>
+                                                        @else
+                                                            <i class="far fa-circle text-secondary"></i>
+                                                        @endif
+                                                    </td>
+                                                    <td class="mailbox-subject">
+                                                        <b>{{ $contact['subject'] }}</b>
+                                                    </td>
+                                                    <td class="mailbox-date">{{ $contact['created_at'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <td class="mailbox-star">Não há registro</td>
+                                        @endif
                                     </tbody>
                                 </table>
                                 <!-- /.table -->
