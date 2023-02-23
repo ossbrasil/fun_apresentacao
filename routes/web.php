@@ -4,7 +4,9 @@
 use App\Http\Controllers\Dashboard\HomeController as DashboardHomeController;
 use App\Http\Controllers\Dashboard\ContactController as DashboardContactController;
 use App\Http\Controllers\Dashboard\UserController as DashboardUserController;
-
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\Website\AboutController;
+use App\Http\Controllers\Website\ContactController;
 // website controller
 use App\Http\Controllers\Website\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -40,25 +42,26 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('lidos', [DashboardContactController::class, 'read'])->name('dashboard-contact-read');
             Route::get('nao-lidos', [DashboardContactController::class, 'notRead'])->name('dashboard-contact-not-read');
         });
-    });
 
-    Route::group(['prefix' => 'usuario'], function () {
-        Route::get('/', [DashboardUserController::class, 'index'])->name('dashboard-user');
-        Route::post('/', [DashboardUserController::class, 'update'])->name('dashboard-user-update');
+        Route::group(['prefix' => 'perfil'], function () {
+            Route::get('/', [DashboardUserController::class, 'index'])->name('dashboard-user');
+            Route::post('/', [DashboardUserController::class, 'update'])->name('dashboard-user-update');
+        });
     });
 });
 
 
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/sobre', [AboutController::class, 'index'])->name('about');
+    Route::get('/contato', [ContactController::class, 'index'])->name('contact');
+    Route::post('/contacto', [ContactController::class, 'store'])->name('contact-store');
 });
 
-// Route::get('dashboard-home', [DashboardHomeController::class, 'index'])->name('dashboard-home');
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+// testes
+Route::group(['prefix' => 'test'], function () {
+    Route::get('months-views', [TestController::class, 'monthViews']);
+});
 
 Route::get('/password/{pass}', function ($pass) {
     return Hash::make($pass);
