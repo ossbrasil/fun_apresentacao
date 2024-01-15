@@ -166,6 +166,32 @@
                         </li>
 
                         <!-- Contact -->
+                        <li class="nav-item @yield('nav-blog-open')">
+                            <a href="#" class="nav-link @yield('nav-blog-ul')">
+                                <i class="nav-icon fas fa-blog"></i>
+                                <p>
+                                    Blog
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard-blog') }}" class="nav-link @yield('nav-blog-li-show')">
+                                        <i class="far fa-eye mr-2 ml-4"></i>
+                                        <p>Ver todos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard-blog-create') }}"
+                                        class="nav-link @yield('nav-blog-li-create')">
+                                        <i class="fas fa-plus mr-2 ml-4"></i>
+                                        <p>Cadastrar</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Contact -->
                         <li class="nav-item @yield('nav-contact-open')">
                             <a href="#" class="nav-link @yield('nav-contact-ul')">
                                 <i class="nav-icon far fa-envelope"></i>
@@ -194,7 +220,7 @@
                         <!-- users -->
                         <li class="nav-header">Configurações</li>
                         <li class="nav-item">
-                            <a href="/" class="nav-link @yield('perfil-li')">
+                            <a href="{{ route('dashboard-user') }}" class="nav-link @yield('perfil-li')">
                                 <i class="nav-icon fas fa-user-alt"></i>
                                 <p>Perfil</p>
                             </a>

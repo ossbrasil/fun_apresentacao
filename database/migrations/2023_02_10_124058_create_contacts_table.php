@@ -20,7 +20,7 @@ class CreateContactsTable extends Migration
             $table->text('subject');
             $table->longText('message');
             $table->enum('label', ['important', 'offers', 'complaint', 'compliment', 'suggestion', 'other'])->default('other');
-            $table->integer('is_read', 2)->default(0);
+            $table->integer('is_read')->default(0);
             $table->timestamps();
         });
     }
